@@ -294,11 +294,11 @@ jQuery(document).ready(function ($) {
                 setTimeout(function(){
                     $('#district').val(district_id);
                     $('#ward').val(ward_id);
-                }, 2500);
+                }, 2000);
                 setTimeout(function(){
                     $('#district').val(district_id);
                     $('#ward').val(ward_id);
-                }, 4000);
+                }, 3000);
             }
         } catch (e) {
             console.log(e);
@@ -310,26 +310,42 @@ jQuery(document).ready(function ($) {
         jQuery(this).attr('disabled', 'disabled').text("Pushing...");
         var btnPush = jQuery(this);
         var post_id = jQuery(this).data('id');
+        var api_url = jQuery(this).prev('.api-url').val();
         if (parseInt(post_id) > 0) {
             jQuery.ajax({
                 url: ajaxurl, type: "POST", dataType: "json", cache: false,
                 data: {
                     action: 'api_push_product',
-                    id: post_id
+                    id: post_id,
+                    url: api_url
                 },
                 success: function (response, textStatus, XMLHttpRequest) {
-                    if(response && response.status === "success"){
-                        btnPush.removeClass('button-primary').text("Pushed");
+                    if(response){
+                        if(response.status === "success"){
+                            btnPush.removeClass('button-primary').text("Pushed");
+                            if(jQuery('.btn-push-api').prev('.api-url').find('option').length > 1){
+                                setTimeout(function(){
+                                    btnPush.addClass('button-primary').text('Push');
+                                }, 1000);
+                            }
+                        } else if(response.status === "error") {
+                            alert(response.message);
+                            btnPush.removeAttr('disabled').text('Push');
+                        }
                     } else {
-                        alert(response.message);
-                        btnPush.removeAttr('disabled');
+                        alert("Xảy ra lỗi!");
+                        btnPush.removeAttr('disabled').text('Push');
                     }
                 },
                 error: function (MLHttpRequest, textStatus, errorThrown) {
                     console.log(errorThrown);
                     btnPush.removeAttr('disabled');
                 },
-                complete: function () {}
+                complete: function () {
+                    if(jQuery('.btn-push-api').prev('.api-url').find('option').length > 1){
+                        btnPush.removeAttr('disabled');
+                    }
+                }
             });
         } else {
             alert("Không hợp lệ!");

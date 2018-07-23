@@ -123,6 +123,22 @@ function create_product_taxonomies() {
         ),
         'rewrite' => array('slug' => 'muc-dich', 'with_front' => false),
     ));
+    
+    register_taxonomy('product_special', 'product', array(
+        'hierarchical' => true,
+        'public' => true,
+        'show_ui' => true,
+        'query_var' => true,
+        'labels' => array(
+            'name' => __('Đặc điểm'),
+            'singular_name' => __('Product Specials'),
+            'add_new' => __('Add New'),
+            'add_new_item' => __('Add New Special'),
+            'new_item' => __('New Real Specials'),
+            'search_items' => __('Search Specials'),
+        ),
+        'rewrite' => array('slug' => 'dac-diem', 'with_front' => false),
+    ));
 }
 
 add_action('init', 'create_product_taxonomies');
@@ -206,6 +222,13 @@ $product_meta_box2 = array(
             'options' => unitPrice_list(),
         ),
         array(
+            'name' => 'Hoa hồng',
+            'desc' => '',
+            'id' => 'com',
+            'type' => 'text',
+            'std' => '',
+        ),
+        array(
             'name' => 'Diện tích',
             'desc' => '',
             'id' => 'area',
@@ -235,7 +258,7 @@ $product_meta_box2 = array(
             'std' => '',
         ),
         array(
-            'name' => 'Đường trước nhà',
+            'name' => 'Đường vào (m)',
             'desc' => '',
             'id' => 'duong_truoc_nha',
             'type' => 'text',
@@ -264,12 +287,19 @@ $product_meta_box2 = array(
             'std' => '',
         ),
         array(
+            'name' => 'Thời gian bắt đầu của tin',
+            'desc' => 'Định dạng: Năm/tháng/ngày. Ví dụ: 2018/12/31',
+            'id' => 'start_time',
+            'type' => 'text',
+            'std' => '',
+        ),
+        array(
             'name' => 'Thời gian hết hạn của tin',
-            'desc' => 'ví dụ: 20/12/2015',
+            'desc' => 'Định dạng: Năm/tháng/ngày. Ví dụ: 2019/12/31',
             'id' => 'end_time',
             'type' => 'text',
-            'std' => '21/11/2019',
-        ), 
+            'std' => '',
+        ),
         array(
             'name' => 'Nhà đất vip',
             'desc' => '',
@@ -288,6 +318,22 @@ $product_meta_box2 = array(
             'type' => 'select',
             'std' => '',
             'options' => project_list(),
+        ),
+        array(
+            'name' => 'Đối tượng đăng tin',
+            'desc' => '',
+            'id' => 'object_poster',
+            'type' => 'select',
+            'std' => '',
+            'options' => get_object_posters(),
+        ),
+        array(
+            'name' => 'Quyền hạn đối với BĐS',
+            'desc' => '',
+            'id' => 'product_permission',
+            'type' => 'select',
+            'std' => '',
+            'options' => get_product_permissions(),
         ),
     )
 );
@@ -378,8 +424,58 @@ function restrict_product_by_product_category() {
                 'hide_empty'      =>  true, // Don't show businesses w/o listings
             ));
         }
+        $object_poster = getRequest('object_poster');
+        $product_permission = getRequest('product_permission');
+        echo '<select name="object_poster" class="postform">';
+        echo '<option value="">Đối tượng đăng</option>';
+        foreach (get_object_posters() as $key => $value) {
+            if($object_poster == $key){
+                echo '<option value="' . $key . '" selected>' . $value . '</option>';
+            } else {
+                echo '<option value="' . $key . '">' . $value . '</option>';
+            }
+        }
+        echo '</select>';
+        echo '<select name="product_permission" class="postform">';
+        echo '<option value="">Quyền hạn đối với BĐS</option>';
+        foreach (get_product_permissions() as $key => $value) {
+            if($product_permission == $key){
+                echo '<option value="' . $key . '" selected>' . $value . '</option>';
+            } else {
+                echo '<option value="' . $key . '">' . $value . '</option>';
+            }
+        }
+        echo '</select>';
     }
 }
+
+// Get post where filter condition
+/*
+if (is_admin()) {
+    add_filter( 'posts_where' , 'products_where' );
+}
+function products_where($where) {
+    $post_type = 'product';
+    if (getRequest('post_type') == $post_type and strpos($where, $post_type) !== false) {
+        global $wpdb;
+        
+        $object_poster = getRequest('object_poster');
+        $product_permission = getRequest('product_permission');
+        if(!empty($object_poster) and !empty($product_permission)){
+            $where .= " AND ( ";
+            $where .= " ($wpdb->postmeta.meta_key = 'object_poster' AND $wpdb->postmeta.meta_value = '$object_poster') ";
+            $where .= " OR ";
+            $where .= " ($wpdb->postmeta.meta_key = 'product_permission' AND $wpdb->postmeta.meta_value = '$product_permission') ";
+            $where .= " ) ";
+        } elseif(!empty($object_poster)){
+            $where .= " AND ( $wpdb->postmeta.meta_key = 'object_poster' AND $wpdb->postmeta.meta_value = '$object_poster' ) ";
+        } elseif(!empty($product_permission)){
+            $where .= " AND ( $wpdb->postmeta.meta_key = 'product_permission' AND $wpdb->postmeta.meta_value = '$product_permission' ) ";
+        }
+    }
+    return $where;
+}
+*/
 
 // ADD NEW COLUMN  
 function product_columns_head($defaults) {
@@ -407,9 +503,24 @@ function product_columns_content($column_name, $post_id) {
             }
             break;
         case 'push':
-            if(get_post_meta($post_id, 'pushed', true) == 'yes'){
-                echo __('Pushed', SHORT_NAME);
-            } else if(get_post_status($post_id) == "publish") {
+            $count_api_url = count(get_api_urls());
+            if($count_api_url == 1){
+                if(get_post_meta($post_id, 'pushed', true) == 'yes'){
+                    echo __('Pushed', SHORT_NAME);
+                } else if(get_post_status($post_id) == "publish") {
+                    echo '<select class="api-url" style="display:none">';
+                    foreach(get_api_urls() as $url => $name){
+                        echo '<option value="'.$url.'" selected>'.$name.'</option>';
+                    }
+                    echo '</select>';
+                    echo '<button class="button button-primary btn-push-api" data-id=' . $post_id . '">' . __('Push', SHORT_NAME) . '</button>';
+                }
+            } else if($count_api_url > 1){
+                echo '<select class="api-url">';
+                foreach(get_api_urls() as $url => $name){
+                    echo '<option value="'.$url.'">'.$name.'</option>';
+                }
+                echo '</select>';
                 echo '<button class="button button-primary btn-push-api" data-id=' . $post_id . '">' . __('Push', SHORT_NAME) . '</button>';
             }
             break;

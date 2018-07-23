@@ -23,6 +23,7 @@ function get_category_childrens() {
 # Push product to SGD
 /* ----------------------------------------------------------------------------------- */
 function api_push_product() {
+    $api_url = getRequest('api_url');
     $post_id = intval(getRequest('id'));
     $product = get_post($post_id);
     $pushed = get_post_meta($post_id, 'pushed', true);
@@ -53,6 +54,11 @@ function api_push_product() {
         foreach ($acreages as $acreage) {
             $product_acreage[] = $acreage->term_id;
         }
+        $special_cat = array();
+        $specials = get_the_terms($post_id, 'product_special');
+        foreach ($specials as $special) {
+            $special_cat[] = $special->term_id;
+        }
         
         $gallery = get_post_meta($post_id, 'gallery', true);
         $_gallery = array();
@@ -68,6 +74,7 @@ function api_push_product() {
             'purpose_cat' => $purpose_cat,
             'product_price' => $product_price,
             'product_acreage' => $product_acreage,
+            'special_cat' => $special_cat,
             'post_title' => $product->post_title,
             'post_content' => $product->post_content,
             'city' => get_post_meta($post_id, 'city', true),
@@ -77,6 +84,7 @@ function api_push_product() {
             'price' => get_post_meta($post_id, 'price', true),
             'currency' => get_post_meta($post_id, 'currency', true),
             'unitPrice' => get_post_meta($post_id, 'unitPrice', true),
+            'com' => get_post_meta($post_id, 'com', true),
             'area' => get_post_meta($post_id, 'area', true),
             'vi_tri' => get_post_meta($post_id, 'vi_tri', true),
             'mat_tien' => get_post_meta($post_id, 'mat_tien', true),
@@ -87,6 +95,9 @@ function api_push_product() {
             'toilet' => get_post_meta($post_id, 'toilet', true),
             'post_video' => get_post_meta($post_id, 'video', true),
             'post_maps' => get_post_meta($post_id, 'maps', true),
+            'object_poster' => get_post_meta($post_id, 'object_poster', true),
+            'product_permission' => get_post_meta($post_id, 'product_permission', true),
+            'start_time' => get_post_meta($post_id, 'start_time', true),
             'end_time' => get_post_meta($post_id, 'end_time', true),
             'contact_name' => get_post_meta($post_id, 'contact_name', true),
             'contact_tel' => get_post_meta($post_id, 'contact_tel', true),
@@ -95,7 +106,7 @@ function api_push_product() {
             'gallery' => $_gallery,
         );
         $data = http_build_query($args);
-        $ch = curl_init(API_URL . "/post_product");
+        $ch = curl_init($api_url . "/post_product");
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
