@@ -420,6 +420,7 @@ jQuery(document).ready(function ($) {
         } else {
             jQuery(".wrap-bookmarks").hide();
         }
+        return false;
     });
 
     jQuery('#btn-view-link').on('click', function(){
