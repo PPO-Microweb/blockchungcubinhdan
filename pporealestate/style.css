@@ -13,7 +13,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: 
 Text Domain: pporealestate
 */
-body{background: #fff}
+body{background: #f2f2f2}
 iframe[name="google_conversion_frame"]{position:absolute;left:-300px;bottom:0}
 img{max-width: 100%;height: auto}
 a, a:visited, a:link, a:active {
@@ -161,7 +161,7 @@ section > article > .vc_row.fullwidth > .vc_column_container > .vc_column-inner 
 .form-control{border-radius: 0}
 .thumbnail img{width: 100%}
 .home{
-    background: #fff;
+    background: #f2f2f2;
 }
 #header{
     background: #f2f2f2
@@ -175,11 +175,17 @@ section > article > .vc_row.fullwidth > .vc_column_container > .vc_column-inner 
 .top_header{
     overflow: hidden;
     padding: 8px 0;
+    background: #fff;
+    border-bottom: 2px solid #ccc;
 }
 .head-mid{
-    padding: 10px 0;
-    background: #fff;
+    padding: 20px 0 0;
+    background: #f2f2f2;
     color: #333
+}
+.head-mid .container {
+  background: #fff;
+  padding-bottom: 10px;
 }
 .header-hotline {
     background: url(assets/images/bg-hotline-new.png) no-repeat top right;
@@ -211,11 +217,13 @@ section > article > .vc_row.fullwidth > .vc_column_container > .vc_column-inner 
 .main_content{
     margin-top: 10px;
     margin-bottom: 30px;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 /*ppo_menu*/
 .ppo_menu{
-    background: #fff;
+    background: #f2f2f2;
     width: 100%;
     z-index: 999
 }
@@ -317,18 +325,18 @@ main_menu .sub-menu ul.last {
     margin-left: 5px;
     width: 100%;
     font-size: 12px;
-    background: #fff;
-    border: 1px solid #0038A7;
-    border-radius: 4px;
+    background: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 0;
 }
 .top_link ul li .glyphicon{color: #0038A7;display: none}
 .top_link ul li a{
-    color: #0038A7!important;
+    color: #333!important;
     font-weight: bold;
     text-decoration: none;
 }
 .top_link ul li:hover{
-    background: #0038A7
+    background: #fdae2d;
 }
 .top_link ul li:hover a{
     color: #fff!important
@@ -2387,8 +2395,34 @@ ul.list-pu li{
     padding-left: 0;
 }
 
+.wrap-count-header {
+    float: right;
+    text-align: center;
+    border: 2px solid #008e7e;
+    max-width: 100%;
+    width: 90px;
+    padding: 10px 0 0 0;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.wrap-count-header .number-count {
+    margin-bottom: 0;
+    color: #fdae2d;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.wrap-count-header .text-count {
+    color: #008e7e;
+    font-size: 12px;
+}
+
 /* Responsive */
 @media (min-width:992px) and (max-width: 1199px){
+    #header_logo {
+        margin-top: 20px;
+    }
     .main_menu li a {padding: 7px 9px}
     ul.list-pu li{width: 30%}
     .list_product .item_product .row-pro h4{font-size: 15px}
@@ -2397,6 +2431,17 @@ ul.list-pu li{
     #footer .socials li a{width: 45px;height: 45px}
 }
 @media (max-width:991px){
+    #header_logo {
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    .wrap-count-header {
+        float: none;
+        display: inline-block;
+    }
+    .container-count {
+        text-align: center;
+    }
     .container{width: 100%}
     .vc_row.vc_custom_1514376915802{padding-top: 100px!important}
     .vc_custom_1514397958856 .vc_col-sm-6{width: 100%}

@@ -59,72 +59,126 @@
     <!--END: Alert Message-->
     
     <div id="header">
-        <div class="container">
-            <div class="row top_header">
-                <div class="col-md-5 hidden-sm hidden-xs">
-                    <div class="top-info">
-                        Hotline: <a href="tel:<?php echo get_option(SHORT_NAME . "_hotline") ?>"><?php echo get_option(SHORT_NAME . "_hotline") ?></a> | 
-                        Email: <a href="mailto:<?php echo get_option("info_email") ?>"><?php echo get_option("info_email") ?></a>
+        <div class="top_header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5 hidden-sm hidden-xs">
+                        <div class="top-info">
+                            Hotline: <a href="tel:<?php echo get_option(SHORT_NAME . "_hotline") ?>"><?php echo get_option(SHORT_NAME . "_hotline") ?></a> | 
+                            Email: <a href="mailto:<?php echo get_option("info_email") ?>"><?php echo get_option("info_email") ?></a>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-7">
-                    <div class="top_link">
-                        <ul>
-                            <li>
-                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> 
-                                <a title="Đăng tin Bán/Cho thuê Nhà đất" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageposter")); ?>">Đăng tin</a>
-                            </li>
-                            <li>
-                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 
-                                <a title="Yêu cầu Thuê/Mua" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pagesale")); ?>">Yêu cầu</a>
-                            </li>
-                            <li>
-                                <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span> 
-                                <a title="Ký gửi nhà đất" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pagesign")); ?>">Ký gửi</a>
-                            </li>
-                            
-                            <?php if (!is_user_logged_in()): ?>
-                            <li>
-                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 
-                                <a title="Đăng nhập" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pagelogin")); ?>">Đăng nhập</a>
-                            </li> 
-                            <li>
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 
-                                <a title="Đăng ký" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageregister")); ?>">Đăng ký</a>
-                            </li>
-                            <?php else: ?>
-                            <li>
-                                <span class="glyphicon glyphicon-heart" aria-hidden="true"></span> 
-                                <a title="Yêu thích" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageFavorites")); ?>">Yêu thích</a>
-                            </li>
-                            <li>
-                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 
-                                <a title="Tài khoản" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageprofile")); ?>">Tài khoản</a>
-                            </li>
-                            <li>
-                                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 
-                                <a title="Thoát" href="<?php echo wp_logout_url(); ?>">Thoát</a>
-                            </li>
-                            <?php endif; ?> 
-                        </ul>
+                    <div class="col-md-7">
+                        <div class="top_link">
+                            <ul>
+                                <li>
+                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> 
+                                    <a title="Đăng tin Bán/Cho thuê Nhà đất" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageposter")); ?>">Đăng tin</a>
+                                </li>
+                                <li>
+                                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 
+                                    <a title="Yêu cầu Thuê/Mua" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pagesale")); ?>">Yêu cầu</a>
+                                </li>
+                                <li>
+                                    <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span> 
+                                    <a title="Ký gửi nhà đất" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pagesign")); ?>">Ký gửi</a>
+                                </li>
+                                
+                                <?php if (!is_user_logged_in()): ?>
+                                <li>
+                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 
+                                    <a title="Đăng nhập" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pagelogin")); ?>">Đăng nhập</a>
+                                </li> 
+                                <li>
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 
+                                    <a title="Đăng ký" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageregister")); ?>">Đăng ký</a>
+                                </li>
+                                <?php else: ?>
+                                <li>
+                                    <span class="glyphicon glyphicon-heart" aria-hidden="true"></span> 
+                                    <a title="Yêu thích" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageFavorites")); ?>">Yêu thích</a>
+                                </li>
+                                <li>
+                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 
+                                    <a title="Tài khoản" href="<?php echo get_page_link(get_option(SHORT_NAME . "_pageprofile")); ?>">Tài khoản</a>
+                                </li>
+                                <li>
+                                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 
+                                    <a title="Thoát" href="<?php echo wp_logout_url(); ?>">Thoát</a>
+                                </li>
+                                <?php endif; ?> 
+                            </ul>
+                        </div>
                     </div>
+                    <div class="clearfix"></div>
                 </div>
-                <div class="clearfix"></div>
             </div>
         </div>
         <div class="head-mid">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-lg-6 col-md-5">
                         <div id="header_logo" itemtype="http://schema.org/Organization" itemscope="itemscope">
                             <a title="<?php bloginfo('sitename'); ?>" itemprop="url" href="<?php bloginfo('siteurl'); ?>">
                                 <img alt="<?php bloginfo('sitename'); ?>" src="<?php echo get_option('sitelogo'); ?>" itemprop="logo" />
                             </a>
                         </div>
                     </div>
-                    <div class="col-sm-6 hidden-xs">
-                        <div class="header-hotline">
-                            <a href="tel:<?php echo get_option(SHORT_NAME . "_hotline") ?>"><?php echo get_option(SHORT_NAME . "_hotline") ?></a>
+                    <div class="col-lg-6 col-md-7 hidden-xs container-count">
+                        <div class="wrap-count-header">
+                            <p class="number-count">
+                                <?php echo wp_statistics_visit('total'); ?>
+                            </p>
+                            <p class="text-count">
+                                Lượt xem
+                            </p>
+                        </div>
+                        <div class="wrap-count-header">
+                            <p class="number-count">
+                                <?php
+                                    $count_user = count_users();
+                                    echo $count_user['total_users'];
+                                ?>
+                            </p>
+                            <p class="text-count">
+                                Thành viên
+                            </p>
+                        </div>
+                        <div class="wrap-count-header">
+                            <p class="number-count">
+                                <?php
+                                    $count_posts = wp_count_posts('supplier');
+                                    $published_posts = $count_posts->publish;
+                                    echo $published_posts;
+                                ?>
+                            </p>
+                            <p class="text-count">
+                                Nhà cung cấp
+                            </p>
+                        </div>
+                        <div class="wrap-count-header">
+                            <p class="number-count">
+                                <?php
+                                    $count_posts = wp_count_posts('project');
+                                    $published_posts = $count_posts->publish;
+                                    echo $published_posts;
+                                ?>
+                            </p>
+                            <p class="text-count">
+                                Dự án
+                            </p>
+                        </div>
+                        <div class="wrap-count-header">
+                            <p class="number-count">
+                                <?php
+                                    $count_posts = wp_count_posts('product');
+                                    $published_posts = $count_posts->publish;
+                                    echo $published_posts;
+                                ?>
+                            </p>
+                            <p class="text-count">
+                                Bất động sản
+                            </p>
                         </div>
                     </div>
                 </div>
